@@ -36,7 +36,7 @@ public class UserController {
     String password = request.getParameter("password");
     String redirectUrl =
         StringUtils.defaultIfEmpty(request.getParameter("redirectUrl"),
-            request.getContextPath() + "/mvc/user/userList");
+            request.getContextPath() + "/mvc/article/articleList");
     log.debug("signin redirectUrl={}", redirectUrl);
 
     try {
