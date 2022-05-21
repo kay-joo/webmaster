@@ -30,7 +30,7 @@
         <div style="width: 30%; float:none; margin:0 auto">
             <div style="padding:10px;">
                 <div class="card-header">
-                    <div class="navbar-brand" ;>로그인</div>
+                    <div class="navbar-brand">로그인</div>
                     <div class="card mb-4">
                         <div class="card-body">
                             <p><input type="email" name="email" placeholder="이메일" required autofocus/>

@@ -16,7 +16,7 @@
 
 <body>
 <nav class="navbar navbar-dark bg-primary">
-    <div class="navbar-brand" ;>회원가입</div>
+    <div class="navbar-brand">회원가입</div>
 </nav>
 
 
