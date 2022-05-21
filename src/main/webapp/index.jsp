@@ -3,9 +3,6 @@
 
 <%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
 
-<%--부트스트랩 사용하기 위한 구문--%>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <title>샘플 홈페이지</title>
 
 <div style="padding:10px;">
