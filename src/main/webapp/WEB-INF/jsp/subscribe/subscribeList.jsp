@@ -18,12 +18,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            <c:if test="${empty sessionScope.ME}">
-                <div><a href="./app/user/signinForm?redirectUrl=/demo/app/subscribe/addSubscribe">추가</a></div>
-            </c:if>
-            <c:if test="${!empty sessionScope.ME}">
-                <div><a href="./app/subscribe/addSubscribe">추가</a></div>
-            </c:if>
+                <div><a href="./app/subscribe/subscribeForm">추가</a></div>
         </h6>
     </div>
     <div class="card-body">

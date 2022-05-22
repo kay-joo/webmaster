@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 
 
@@ -35,6 +37,26 @@ public class SubscribeController {
         request.setAttribute("subscribeList", subscribeList);
         request.getRequestDispatcher("/WEB-INF/jsp/subscribe/subscribeList.jsp")
                 .forward(request, response);
+    }
+
+    /**
+     * 구독 추가 화면
+     */
+    @GetMapping("/subscribe/subscribeForm")
+    public void subscribeForm(HttpServletRequest request,
+                            HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("ME") == null) {
+            // 로그인 안한 경우 로그인 화면으로. redirectUrl=구독추가 화면
+            String redirectUrl =
+                    request.getContextPath() + "/app/subscribe/subscribeForm";
+            response.sendRedirect(//리다이렉트를 리다이렉트
+                    request.getContextPath() + "/app/user/signinForm?redirectUrl=" +
+                            URLEncoder.encode(redirectUrl, Charset.defaultCharset()));//리다이렉트를 변환 후 리다이렉트
+        } else {
+            // 로그인 한 경우 구독추가 화면으로
+            request.getRequestDispatcher("/WEB-INF/jsp/subscribe/subscribeForm.jsp")
+                    .forward(request, response);
+        }
     }
 
 
