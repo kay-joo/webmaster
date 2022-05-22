@@ -25,7 +25,7 @@
 </nav>
 
 
-<form action="./mvc/user/signin" method="post">
+<form action="./app/user/signin" method="post">
     <div class="row text-center" style="width: 100%">
         <div style="width: 30%; float:none; margin:0 auto">
             <div style="padding:10px;">

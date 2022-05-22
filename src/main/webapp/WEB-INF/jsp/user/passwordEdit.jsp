@@ -9,10 +9,10 @@
     <base href="${pageContext.request.contextPath}/"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 
 
-<form action="./mvc/user/updatePassword" method="post">
+<form action="./app/user/updatePassword" method="post">
     <div class="row text-center" style="width: 100%">
         <div style="width: 30%; float:none; margin:0 auto">
             <div style="padding:10px;">

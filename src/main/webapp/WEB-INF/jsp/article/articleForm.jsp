@@ -20,7 +20,7 @@
     </style>
 </head>
 
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 
 
 <body>
@@ -28,7 +28,7 @@
     <span style=" font-size:2em;  color: black;">글쓰기</span>
 </div>
 
-<form action="./mvc/article/addArticle" method="post">
+<form action="./app/article/addArticle" method="post">
     <div class="card mb-4">
         <div class="card-header">
             <p><input type="text" name="title" placeholder="제목" required autofocus/>

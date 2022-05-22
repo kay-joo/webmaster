@@ -9,7 +9,7 @@
     <base href="${pageContext.request.contextPath}/"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <div style="padding:10px;">
     <span style=" font-size:2em;  color: black;">게시글</span>
 </div>
@@ -22,7 +22,7 @@
 
             <div style="float: right">
                     <%--수정버튼--%>
-                <a href="./mvc/article/articleEdit?articleId=${article.articleId}"
+                <a href="./app/article/articleEdit?articleId=${article.articleId}"
                    class="btn btn-primary btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-flag"></i>
@@ -31,7 +31,7 @@
                 </a>
 
                     <%--삭제버튼--%>
-                <a id="btnDel" href="./mvc/article/deleteArticle?articleId=${article.articleId}"
+                <a id="btnDel" href="./app/article/deleteArticle?articleId=${article.articleId}"
                    class="btn btn-danger btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-trash"></i>
@@ -47,7 +47,7 @@
 
 
     <div style="padding:10px;">
-        <p><a href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a>
+        <p><a href="./app/user/userInfo?userId=${article.userId}">${article.name}</a>
             | ${article.udate}</p>
     </div>
 </div>

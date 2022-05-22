@@ -9,7 +9,7 @@
     <base href="${pageContext.request.contextPath}/"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <div style="padding:10px;">
     <span style=" font-size:2em;  color: black;">내정보</span>
 </div>
@@ -36,7 +36,7 @@
                 </tr>
                 </tbody>
             </table>
-            <p><a href="./mvc/user/passwordEdit">비밀번호 수정</a></p>
+            <p><a href="./app/user/passwordEdit">비밀번호 수정</a></p>
         </div>
     </div>
 </div>

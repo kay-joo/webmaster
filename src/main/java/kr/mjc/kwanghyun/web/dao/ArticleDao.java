@@ -64,7 +64,7 @@ public class ArticleDao {
   /**
    * 게시글 한 건 조회
    */
-  public Article getArticle(int articleId) {
+  public Article articleView(int articleId) {
     return jdbcTemplate.queryForObject(GET_ARTICLE, articleRowMapper,
         articleId);
   }

@@ -9,7 +9,7 @@
     <base href="${pageContext.request.contextPath}/"/>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 
 <div style="padding:10px;">
     <span style=" font-size:2em;  color: black;">구독목록</span>
@@ -19,10 +19,10 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
             <c:if test="${empty sessionScope.ME}">
-                <div><a href="./mvc/user/signinForm?redirectUrl=/demo/mvc/subscribe/addSubscribe">추가</a></div>
+                <div><a href="./app/user/signinForm?redirectUrl=/demo/app/subscribe/addSubscribe">추가</a></div>
             </c:if>
             <c:if test="${!empty sessionScope.ME}">
-                <div><a href="./mvc/subscribe/addSubscribe">추가</a></div>
+                <div><a href="./app/subscribe/addSubscribe">추가</a></div>
             </c:if>
         </h6>
     </div>

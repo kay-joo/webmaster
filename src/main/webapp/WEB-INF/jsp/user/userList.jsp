@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <div style="padding:10px;">
     <span style=" font-size:2em;  color: black;">회원목록</span>
 </div>
@@ -24,7 +24,7 @@
     <div>이메일</div>
     <div>이름</div>
     <c:forEach var="user" items="${userList}">
-        <div><a href="./mvc/user/userInfo?userId=${user.userId}">${user.userId}</a>
+        <div><a href="./app/user/userInfo?userId=${user.userId}">${user.userId}</a>
         </div>
         <div>${user.email}</div>
         <div>${user.name}</div>
