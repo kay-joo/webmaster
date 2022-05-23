@@ -29,7 +29,7 @@
 
               </div>
               <div class="col-auto">
-                <img src="images/netflix.png" alt="My Image" width="100px">
+                <img src="./images/netflix.png" alt="My Image" width="100px">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
@@ -50,7 +50,7 @@
                   <div class="small font-weight-bold">2022년 5월 15일</div>
               </div>
               <div class="col-auto">
-                <img src="images/disneyplus.jpg" alt="My Image" width="100px">
+                <img src="./images/disneyplus.jpg" alt="My Image" width="100px">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="small font-weight-bold">2022년 5월 18일</div>
               </div>
               <div class="col-auto">
-                <img src="images/watcha.png" alt="My Image" width="100px">
+                <img src="./images/watcha.png" alt="My Image" width="100px">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
@@ -92,7 +92,7 @@
                 <div class="small font-weight-bold">2022년 6월 7일</div>
               </div>
               <div class="col-auto">
-                <img src="images/tiving.png" alt="My Image" width="100px">
+                <img src="./images/tiving.png" alt="My Image" width="100px">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
@@ -113,7 +113,7 @@
                 <div class="small font-weight-bold">2022년 6월 1일</div>
               </div>
               <div class="col-auto">
-                <img src="images/coupangplay.png" alt="My Image" width="100px">
+                <img src="./images/coupangplay.png" alt="My Image" width="100px">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
