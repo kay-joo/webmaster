@@ -22,7 +22,7 @@
 <body>
 <nav class="navbar navbar-dark bg-primary">
     <div class="navbar-brand" ;>로그인</div>
-</nav
+</nav>
 
 
 <form action="./mvc/user/signin" method="post">
