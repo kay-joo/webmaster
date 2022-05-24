@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class UserController {
   /**
    * 로그인
    */
-  @PostMapping("/user/signin")
+  @RequestMapping("/user/signin")
   public void signin(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String email = request.getParameter("email");

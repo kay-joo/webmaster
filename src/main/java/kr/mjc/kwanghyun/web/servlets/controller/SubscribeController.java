@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -30,10 +31,19 @@ public class SubscribeController {
     @GetMapping("/subscribe/subscribeList")
     public void subscribeList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        User user = (User) session.getAttribute("ME");
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/app/user/signin");
+            return;
+        }
+
+        int userId = user.getUserId();
         int count = NumberUtils.toInt(request.getParameter("count"), 20);
         int page = NumberUtils.toInt(request.getParameter("page"), 1);
 
-        List<Subscribe> subscribeList = subscribeDao.listSubscribe(count, page);
+        List<Subscribe> subscribeList = subscribeDao.listSubscribe(userId, count, page);
         request.setAttribute("subscribeList", subscribeList);
         request.getRequestDispatcher("/WEB-INF/jsp/subscribe/subscribeList.jsp")
                 .forward(request, response);

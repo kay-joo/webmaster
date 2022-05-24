@@ -16,7 +16,7 @@ import java.util.List;
 public class SubscribeDao {
 
     String LIST_SUBSCRIBE = """
-            select subId, userId, name, price, pdate from subscribe
+            select subId, userId, name, price, pdate from subscribe where userId = ?
             order by subId desc limit ?,?""";
 
     String ADD_SUBSCRIBE =
@@ -46,12 +46,11 @@ public class SubscribeDao {
     /**
      * 구독 목록
      */
-    public List<Subscribe> listSubscribe(int count, int page) {
+    public List<Subscribe> listSubscribe(int userId, int count, int page) {
         int offset = (page - 1) * count;
-        return jdbcTemplate.query(LIST_SUBSCRIBE, subscribeRowMapper, offset, count);
+        return jdbcTemplate.query(LIST_SUBSCRIBE, subscribeRowMapper, userId,offset, count);
     }
 
-    
 
     /**
      * 구독물 등록
@@ -60,7 +59,7 @@ public class SubscribeDao {
         namedParameterJdbcTemplate.update(ADD_SUBSCRIBE,
                 new BeanPropertySqlParameterSource(subscribe));
     }
-    
+
 
     /**
      * 구독물 삭제

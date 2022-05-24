@@ -7,16 +7,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand"; href="./index.jsp">홈</a>
-    <a class="navbar-brand"; href="./app/subscribe/subscribeList?count=20&page=1">구독목록</a>
-    <a class="navbar-brand"; href="./app/article/articleList?count=20&page=1">공지사항</a>
+    <a class="navbar-brand" href="./index.jsp">홈</a>
+    <a class="navbar-brand" href="./app/subscribe/subscribeList?count=20&page=1">구독목록</a>
+    <a class="navbar-brand" href="./app/article/articleList?count=20&page=1">공지사항</a>
     <c:if test="${empty sessionScope.ME}">
-        <a class="navbar-brand"; href="./app/user/signinForm">로그인</a>
-        <a class="navbar-brand"; href="./app/user/signupForm">회원가입</a>
+        <a class="navbar-brand" href="./app/user/signinForm">로그인</a>
+        <a class="navbar-brand" href="./app/user/signupForm">회원가입</a>
     </c:if>
     <c:if test="${!empty sessionScope.ME}">
-        <a class="navbar-brand"; href="./app/user/myInfo">${sessionScope.ME.name}님</a>
-        <a class="navbar-brand"; href="./app/user/signout">로그아웃</a>
+        <a class="navbar-brand" href="./app/user/myInfo">${sessionScope.ME.name}님</a>
+        <a class="navbar-brand" href="./app/user/signout">로그아웃</a>
     </c:if>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
