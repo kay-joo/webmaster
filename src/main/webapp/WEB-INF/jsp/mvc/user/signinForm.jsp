@@ -35,9 +35,9 @@
                         <div class="card-body">
                             <p><input type="email" name="email" placeholder="이메일" required autofocus/>
                             </p>
-                            <p><input type="password" name="password" placeholder="비밀번호" required/></p>
-                            <p>
-                                <button type="submit">로그인</button>
+                            <p><input type="password" name="password" placeholder="비밀번호" required/>
+                            </p>
+                            <p><button type="submit">로그인</button>
                             </p>
                         </div>
                     </div>
