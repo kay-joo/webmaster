@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="${pageContext.request.contextPath}/"/>
 </head>
+
 <body>
 <%@ include file="/WEB-INF/jsp/top.jsp" %>
 
@@ -15,5 +16,28 @@
     <span style=" font-size:2em;  color: black;">구독물 추가(추가예정)</span>
 </div>
 
+<form action="./app/subscribe/addSubscribe" method="post">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>구독명</th>
+                <th>금액</th>
+                <th>결제 예정일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" name="name" placeholder="구독명" required autofocus/></td>
+                <td><input type="number" name="price" placeholder="금액" required/></td>
+                <td><input type="date" name="pdate" placeholder="결제 예정일자" required/></td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="padding:10px;">
+            <button type="submit">등록</button>
+        </div>
+    </div>
+</form>
 </body>
 </html>

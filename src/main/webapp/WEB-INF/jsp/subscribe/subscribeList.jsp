@@ -18,7 +18,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-                <div><a href="./app/subscribe/subscribeForm">추가</a></div>
+            <div><a href="./app/subscribe/subscribeForm">추가</a></div>
         </h6>
     </div>
     <div class="card-body">
@@ -46,6 +46,11 @@
                         <td>${subscribe.pdate}</td>
                     </tr>
                 </c:forEach>
+                </tbody>
+                <tbody>
+                <td>합계</td>
+                <td>${sum}원</td>
+                <td></td>
                 </tbody>
             </table>
         </div>
