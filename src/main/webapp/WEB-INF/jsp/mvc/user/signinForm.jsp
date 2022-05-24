@@ -21,7 +21,7 @@
 
 <body>
 <nav class="navbar navbar-dark bg-primary">
-    <div class="navbar-brand" ;>로그인</div>
+    <div class="navbar-brand">로그인</div>
 </nav>
 
 
