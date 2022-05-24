@@ -34,8 +34,8 @@
             </tr>
             </tbody>
         </table>
-        <div style="padding:10px;">
-            <button type="submit">등록</button>
+        <div style="padding:10px;" class="mb-4">
+            <button class="btn btn-primary" type="submit">등록</button>
         </div>
     </div>
 </form>

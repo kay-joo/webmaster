@@ -31,15 +31,16 @@
 <form action="./app/article/addArticle" method="post">
     <div class="card mb-4">
         <div class="card-header">
-            <p><input type="text" name="title" placeholder="제목" required autofocus/>
+            <p>
+                <input type="text" name="title" placeholder="제목" required autofocus/>
             </p>
         </div>
         <div class="card-body">
             <p><textarea name="content" required></textarea></p>
         </div>
 
-        <div style="padding:10px;">
-            <button type="submit">등록</button>
+        <div style="padding:10px;" class="mb-4">
+            <button class="btn btn-primary" type="submit">등록</button>
         </div>
     </div>
 </form>

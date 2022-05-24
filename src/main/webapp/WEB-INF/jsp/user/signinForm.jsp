@@ -32,15 +32,21 @@
                         <div class="navbar-brand">로그인</div>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <p>
-                                    <input type="email" name="email" placeholder="이메일" class="form-control" required autofocus>
-                                </p>
-                                <p>
-                                    <input type="password" name="password" placeholder="비밀번호" class="form-control" aria-describedby="passwordHelpBlock" required>
-                                </p>
-                                <p>
-                                    <button class="btn btn-primary" type="submit">로그인</button>
-                                </p>
+                                <div class="mb-4">
+                                    <p>
+                                        <input type="email" name="email" placeholder="이메일" class="form-control" required autofocus>
+                                    </p>
+                                </div>
+                                <div class="mb-4">
+                                    <p>
+                                        <input type="password" name="password" placeholder="비밀번호" class="form-control" aria-describedby="passwordHelpBlock" required>
+                                    </p>
+                                </div>
+                                <div class="mb-4">
+                                    <p>
+                                        <button class="btn btn-primary" type="submit">로그인</button>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
