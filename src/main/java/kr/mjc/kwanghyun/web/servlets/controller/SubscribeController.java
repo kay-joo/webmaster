@@ -102,5 +102,25 @@ public class SubscribeController {
         response.sendRedirect(request.getContextPath() + "/app/subscribe/subscribeList");
     }
 
+    /**
+     * 구독물 삭제
+     */
+    @GetMapping("/subscribe/deleteSubscribe")
+    public void deleteSubscribe(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
 
+        User user = (User) session.getAttribute("ME");
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/app/user/signin");
+            return;
+        }
+
+        int userId = user.getUserId();
+        int subId = Integer.parseInt(request.getParameter("subId"));
+
+        subscribeDao.deleteSubscribe(subId,userId);
+
+        subscribeList(request, response);
+    }
 }
