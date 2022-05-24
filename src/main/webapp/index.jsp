@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+    <%@ include file="/WEB-INF/jsp/top.jsp" %>
     <div style="padding:10px;">
       <span style="font-size:2em;  color:black;">구독목록(sample)</span>
     </div>

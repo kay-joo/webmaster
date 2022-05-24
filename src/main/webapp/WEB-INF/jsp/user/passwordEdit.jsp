@@ -20,9 +20,9 @@
                     <div class="navbar-brand" ;>비밀번호 변경</div>
                     <div class="card mb-4">
                         <div class="card-body">
-                            <p><input type="password" name="currentPassword" placeholder="현재 비밀번호"
+                            <p><input type="password" name="currentPassword" class="form-control" placeholder="현재 비밀번호"
                                       required autofocus/></p>
-                            <p><input type="password" name="newPassword" placeholder="새 비밀번호"
+                            <p><input type="password" name="newPassword" class="form-control" placeholder="새 비밀번호"
                                       required/>
                             </p>
                             <p>
