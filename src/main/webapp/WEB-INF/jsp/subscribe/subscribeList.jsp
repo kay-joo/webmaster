@@ -16,11 +16,6 @@
 </div>
 
 <div class="card shadow mb-4">
-    <%--<div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">
-            <div><a href="./app/subscribe/subscribeForm">추가</a></div>
-        </h6>
-    </div>--%>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -31,13 +26,6 @@
                     <th>결제 예정일자</th>
                 </tr>
                 </thead>
-                <%--<tfoot>
-                <tr>
-                    <th>구독명</th>
-                    <th>금액</th>
-                    <th>결제 예정일자</th>
-                </tr>
-                </tfoot>--%>
                 <tbody>
                 <c:forEach var="subscribe" items="${subscribeList}">
                     <tr>
@@ -45,11 +33,10 @@
                         <td>${subscribe.price}원</td>
                         <td>${subscribe.pdate}
                             <div style="float: right">
-                                <a type="button" class="btn btn-outline-primary">수정</a>
+                                <a href="./app/subscribe/subscribeEdit?subId=${subscribe.subId}"
+                                   type="button" class="btn btn-outline-primary">수정</a>
                                 <a href="./app/subscribe/deleteSubscribe?subId=${subscribe.subId}"
-                                   id="btnDel${subscribe.subId}" type="button" class="btn btn-outline-danger">
-                                    삭제
-                                </a>
+                                   id="btnDel${subscribe.subId}" type="button" class="btn btn-outline-danger">삭제</a>
                             </div>
                         </td>
                     </tr>

@@ -3,6 +3,7 @@ package kr.mjc.kwanghyun.web.servlets.controller;
 import kr.mjc.kwanghyun.web.dao.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -100,6 +101,52 @@ public class SubscribeController {
 
         subscribeDao.addSubscribe(subscribe);
         response.sendRedirect(request.getContextPath() + "/app/subscribe/subscribeList");
+    }
+
+    /**
+     * 구독물 수정 페이지
+     */
+    @GetMapping("/subscribe/subscribeEdit")
+    public void subscribeEdit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int subId = Integer.parseInt(request.getParameter("subId"));
+
+        Subscribe subscribe = subscribeDao.subscribeView(subId);
+        request.setAttribute("subscribe", subscribe);
+        request.getRequestDispatcher("/WEB-INF/jsp/subscribe/subscribeEdit.jsp")
+                .forward(request, response);
+    }
+
+    /**
+     * 구독물 수정
+     */
+    @PostMapping("/subscribe/updateSubscribe")
+    public void updateSubscribe(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        User user = (User) session.getAttribute("ME");
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/app/user/signin");
+            return;
+        }
+
+        Subscribe subscribe = new Subscribe();
+        subscribe.setName(request.getParameter("name"));
+        subscribe.setPrice(Integer.parseInt(request.getParameter("price")));
+        subscribe.setPdate(request.getParameter("pdate"));
+        subscribe.setSubId(Integer.parseInt(request.getParameter("subId")));
+        subscribe.setUserId(user.getUserId());
+
+        try {
+            subscribeDao.updateSubscribe(subscribe);
+            // 수정 성공시 구독 리스트로
+            subscribeList(request, response);
+        } catch (DataAccessException e) {
+            // 수정 실패하면 다시 수정 화면으로
+            log.error(e.toString());
+            response.sendRedirect(request.getContextPath() + "/app/subscribe/updateSubscribe");
+        }
     }
 
     /**

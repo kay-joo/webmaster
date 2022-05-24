@@ -19,9 +19,13 @@ public class SubscribeDao {
             select subId, userId, name, price, pdate from subscribe where userId = ?
             order by subId desc limit ?,?""";
 
+    String GET_SUBSCRIBE = """
+            select subId, userId, name, price, pdate from subscribe where subId=?""";
     String ADD_SUBSCRIBE =
             "insert subscribe(userId, name, price, pdate) values (:userId, :name, :price, :pdate)";
 
+    String UPDATE_SUBSCRIBE =
+            "update subscribe set name=:name, price=:price, pdate=:pdate where subId=:subId and userId=:userId";
     String DELETE_SUBSCRIBE = "delete from subscribe where subId=? and userId=?";
 
     private final JdbcTemplate jdbcTemplate;
@@ -48,7 +52,7 @@ public class SubscribeDao {
      */
     public List<Subscribe> listSubscribe(int userId, int count, int page) {
         int offset = (page - 1) * count;
-        return jdbcTemplate.query(LIST_SUBSCRIBE, subscribeRowMapper, userId,offset, count);
+        return jdbcTemplate.query(LIST_SUBSCRIBE, subscribeRowMapper, userId, offset, count);
     }
 
 
@@ -60,7 +64,21 @@ public class SubscribeDao {
                 new BeanPropertySqlParameterSource(subscribe));
     }
 
+    /**
+     * 구독물 한건 조회
+     */
+    public Subscribe subscribeView(int subId) {
+        return jdbcTemplate.queryForObject(GET_SUBSCRIBE, subscribeRowMapper, subId);
+    }
 
+    /**
+     * 구독물 수정
+     */
+    public int updateSubscribe(Subscribe subscribe) {
+        return namedParameterJdbcTemplate.update(UPDATE_SUBSCRIBE,
+                new BeanPropertySqlParameterSource(subscribe));
+    }
+    
     /**
      * 구독물 삭제
      */
