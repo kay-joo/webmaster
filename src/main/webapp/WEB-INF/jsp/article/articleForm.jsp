@@ -19,11 +19,8 @@
         }
     </style>
 </head>
-
-<%@ include file="/WEB-INF/jsp/top.jsp" %>
-
-
 <body>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <div style="padding:10px;">
     <span style=" font-size:2em;  color: black;">글쓰기</span>
 </div>
