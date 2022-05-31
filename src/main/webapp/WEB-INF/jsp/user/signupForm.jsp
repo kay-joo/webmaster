@@ -46,6 +46,7 @@
                                     <p>
                                         <button class="btn btn-primary" type="submit">회원가입</button>
                                     </p>
+                                    <div>${message}</div>
                                 </div>
                             </div>
                         </div>

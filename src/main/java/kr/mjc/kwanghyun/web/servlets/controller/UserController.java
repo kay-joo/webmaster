@@ -5,11 +5,15 @@ import kr.mjc.kwanghyun.web.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,132 +23,115 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @Slf4j
 public class UserController {
 
-  private final UserDao userDao;
+    private final UserDao userDao;
+    private final MessageSource messages;
 
-  public UserController(UserDao userDao) {
-    this.userDao = userDao;
-  }
-
-  /**
-   * 로그인
-   */
-  @RequestMapping("/user/signin")
-  public void signin(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
-    String redirectUrl =
-        StringUtils.defaultIfEmpty(request.getParameter("redirectUrl"),
-            request.getContextPath() + "/app/subscribe/subscribeList");
-    log.debug("signin redirectUrl={}", redirectUrl);
-
-    try {
-      User user = userDao.login(email, password);
-      // 로그인 성공하면 redirectUrl로
-      request.getSession().setAttribute("ME", user);
-      response.sendRedirect(redirectUrl);
-    } catch (DataAccessException e) {
-      // 로그인 실패하면 다시 로그인 화면으로
-      response.sendRedirect(
-          request.getContextPath() + "/app/user/signinForm?redirectUrl=" +
-              URLEncoder.encode(redirectUrl, Charset.defaultCharset()));
+    public UserController(UserDao userDao, MessageSource messages) {
+        this.userDao = userDao;
+        this.messages = messages;
     }
-  }
 
-  /**
-   * 로그아웃
-   */
-  @GetMapping("/user/signout")
-  public void signout(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    request.getSession().invalidate();
-    response.sendRedirect(request.getContextPath() + "/app/article/articleList");
-  }
+    /**
+     * 로그인
+     */
+    @RequestMapping("/user/signin")
+    public String signin(String email, String password, String redirectUrl,
+                         HttpSession session, RedirectAttributes attributes) {
+        redirectUrl = StringUtils.defaultIfEmpty(redirectUrl,
+                "/app/subscribe/subscribeList");
+        log.debug("signin redirectUrl={}", redirectUrl);
 
-  /**
-   * 회원가입
-   */
-  @PostMapping("/user/signup")
-  public void signup(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    User user = new User();
-    user.setEmail(request.getParameter("email"));
-    user.setPassword(request.getParameter("password"));
-    user.setName(request.getParameter("name"));
-
-    try {
-      userDao.addUser(user);
-      // 회원가입 성공하면 로그인
-      signin(request, response);
-    } catch (DataAccessException e) {
-      // 회원가입 실패하면 다시 회원가입 화면으로
-      log.error(e.toString());
-      response.sendRedirect(request.getContextPath() + "/app/user/signupForm");
+        try {
+            User user = userDao.login(email, password);
+            // 로그인 성공하면 redirectUrl로
+            session.setAttribute("ME", user);
+            return "redirect:" + redirectUrl;
+        } catch (DataAccessException e) {
+            // 로그인 실패하면 다시 로그인 화면으로
+            attributes.addFlashAttribute("message",
+                    messages.getMessage("signin.failure.password", null, Locale.getDefault()));
+            return "redirect:/app/user/signinForm?redirectUrl=" + URLEncoder.encode(redirectUrl, Charset.defaultCharset());
+        }
     }
-  }
 
-  /**
-   * 비밀번호 변경
-   */
-  @PostMapping("/user/updatePassword")
-  public void updatePassword(HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
-    HttpSession session = request.getSession();
-    User me = (User) session.getAttribute("ME");
-    String currentPassword = request.getParameter("currentPassword");
-    String newPassword = request.getParameter("newPassword");
+    /**
+     * 로그아웃
+     */
+    @GetMapping("/user/signout")
+    public String signout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/app/article/articleList?count=20&page=1";
+    }
 
-    int updatedRows =
-        userDao.updatePassword(me.getUserId(), currentPassword, newPassword);
-    if (updatedRows >= 1)
-      // 업데이트 성공하면 내정보 화면으로
-      response.sendRedirect(request.getContextPath() + "/app/user/myInfo");
-    else
-      // 업데이트 실패하면 다시 비밀번호변경 화면으로
-      response.sendRedirect(
-          request.getContextPath() + "/app/user/passwordEdit");
-  }
+    /**
+     * 회원가입
+     */
+    @PostMapping("/user/signup")
+    public String signup(User user, HttpSession session, RedirectAttributes attributes) {
 
-  /**
-   * 회원 목록
-   */
-  @GetMapping("/user/userList")
-  public void userList(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    int count = NumberUtils.toInt(request.getParameter("count"), 20);
-    int page = NumberUtils.toInt(request.getParameter("page"), 1);
+        try {
+            userDao.addUser(user);
+            // 회원가입 성공하면 로그인
+            return signin(user.getEmail(), user.getPassword(), null, session, attributes);
+        } catch (DataAccessException e) {
+            // 회원가입 실패하면 다시 회원가입 화면으로
+            log.error(e.toString());
+            //플래시 설정, 한번 쓰고나면 사라지는 내용
+            attributes.addFlashAttribute("message",
+                    messages.getMessage("signup.failure.duplication", null, Locale.getDefault()));
+            return "redirect:/app/user/signupForm";
+        }
+    }
 
-    List<User> userList = userDao.listUsers(count, page);
-    request.setAttribute("userList", userList);
-    request.getRequestDispatcher("/WEB-INF/jsp/user/userList.jsp")
-        .forward(request, response);
-  }
+    /**
+     * 비밀번호 변경
+     */
+    @PostMapping("/user/updatePassword")
+    public String updatePassword(String currentPassword, String newPassword,
+                                 @SessionAttribute("ME") User me, RedirectAttributes attributes) {
+        int updatedRows =
+                userDao.updatePassword(me.getUserId(), currentPassword, newPassword);
+        if (updatedRows >= 1)
+            // 업데이트 성공하면 내정보 화면으로
+            return "redirect:/app/user/myInfo";
+        else {
+            // 업데이트 실패하면 다시 비밀번호변경 화면으로
+            attributes.addFlashAttribute("message",
+                    messages.getMessage("password.failure", null, Locale.getDefault()));
+            return "redirect:/app/user/passwordEdit";
+        }
+    }
 
-  /**
-   * 회원 정보
-   */
-  @GetMapping("/user/userInfo")
-  public void userInfo(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    int userId = Integer.parseInt(request.getParameter("userId"));
+    /**
+     * 회원 목록
+     */
+    @GetMapping("/user/userList")
+    public void userList(int count, int page, Model model) {
+        List<User> userList = userDao.listUsers(count, page);
+        model.addAttribute("userList", userList);
+    }
 
-    User user = userDao.getUser(userId);
-    request.setAttribute("user", user);
-    request.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp")
-        .forward(request, response);
-  }
-  
-  //디폴트 맵핑
-  @GetMapping({"/user/signinForm", "/user/signupForm", "/user/myInfo", "/user/passwordEdit"})
-  private void mapDefault(HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
-    String pathInfo = request.getPathInfo();
-    request.getRequestDispatcher("/WEB-INF/jsp" + pathInfo + ".jsp")
-            .forward(request, response);
-  }
+    /**
+     * 회원 정보
+     */
+    @GetMapping("/user/userInfo")
+    public void userInfo(int userId, Model model) {
+        User user = userDao.getUser(userId);
+        model.addAttribute("user", user);
+    }
+
+    //디폴트 맵핑
+    @GetMapping({"/user/signinForm", "/user/signupForm", "/user/myInfo", "/user/passwordEdit"})
+    private void mapDefault() {
+        //보이드로 반환값을 주면 스프링에서 자동으로 application.properties 파일에 있는
+        //프리픽스 서픽스를 매핑경로 앞뒤로 붙여주고 포워드한다.
+        //prefix=/WEB-INF/jsp/
+        //spring.mvc.view.suffix=.jsp
+    }
 }

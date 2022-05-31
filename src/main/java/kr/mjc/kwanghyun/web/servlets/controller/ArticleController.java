@@ -6,9 +6,13 @@ import kr.mjc.kwanghyun.web.dao.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +27,7 @@ import java.util.List;
 @Slf4j
 public class ArticleController {
 
+    public static final String CURRENT_ARTICLE_LIST = "CURRENT_ARTICLE_LIST";
     private final ArticleDao articleDao;
 
     public ArticleController(ArticleDao articleDao) {
@@ -33,116 +38,74 @@ public class ArticleController {
      * 기사 목록
      */
     @GetMapping("/article/articleList")
-    public void articleList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int count = NumberUtils.toInt(request.getParameter("count"), 20);
-        int page = NumberUtils.toInt(request.getParameter("page"), 1);
-
+    public void articleList(int count, int page, HttpServletRequest request, Model model) {
         List<Article> articleList = articleDao.listArticles(count, page);
-        request.setAttribute("articleList", articleList);
-        request.getRequestDispatcher("/WEB-INF/jsp/article/articleList.jsp")
-                .forward(request, response);
+
+        //Url 세팅
+        String currentUrl = HttpUtils.getRequestURLWithQueryString(request);
+        request.getSession().setAttribute(CURRENT_ARTICLE_LIST, currentUrl);
+
+        model.addAttribute("articleList", articleList);
     }
 
-    @GetMapping("/article/articleForm")
-    public void articleForm(HttpServletRequest request,
-                            HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("ME") == null) {
-            // 로그인 안한 경우 로그인 화면으로. redirectUrl=글쓰기화면
-            String redirectUrl =
-                    request.getContextPath() + "/app/article/articleForm";
-            response.sendRedirect(
-                    request.getContextPath() + "/app/user/signinForm?redirectUrl=" +
-                            URLEncoder.encode(redirectUrl, Charset.defaultCharset()));
-        } else {
-            // 로그인 한 경우 글쓰기 화면으로
-            request.getRequestDispatcher("/WEB-INF/jsp/article/articleForm.jsp")
-                    .forward(request, response);
-        }
-    }
-
-    @PostMapping("/article/addArticle")
-    public void addArticle(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        HttpSession session = request.getSession();
-
-        User user = (User) session.getAttribute("ME");
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/app/user/signin");
-            return;
-        }
-        Article article = new Article();
-        article.setTitle(request.getParameter("title"));
-        article.setContent(request.getParameter("content"));
-        article.setUserId(user.getUserId());
-        article.setName(user.getName());
-
-
-        articleDao.addArticle(article);
-        response.sendRedirect(request.getContextPath() + "/app/article/articleList");
-    }
-
+    /**
+     * 게시글 조회
+     */
     @GetMapping("/article/articleView")
-    public void articleView(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int articleId = Integer.parseInt(request.getParameter("articleId"));
-
+    public void articleView(int articleId, Model model) {
         Article article = articleDao.articleView(articleId);
-        request.setAttribute("article", article);
-        request.getRequestDispatcher("/WEB-INF/jsp/article/articleView.jsp")
-                .forward(request, response);
+        model.addAttribute("article", article);
     }
 
+    /**
+     * 글쓰기 화면
+     */
+    @GetMapping("/article/articleForm")
+    public void articleForm() {
+    }
+
+    /**
+     * 게시글 수정화면
+     */
     @GetMapping("/article/articleEdit")
-    public void articleEdit(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int articleId = Integer.parseInt(request.getParameter("articleId"));
-
+    public void articleEdit(int articleId, @SessionAttribute("ME") User me, Model model) {
         Article article = articleDao.articleView(articleId);
-        request.setAttribute("article", article);
-        request.getRequestDispatcher("/WEB-INF/jsp/article/articleEdit.jsp")
-                .forward(request, response);
+        //본인 글이 아닌 경우
+        if (article.getUserId() != me.getUserId())
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        model.addAttribute("article", article);
     }
 
+    /**
+     * 게시글 추가 후 목록 1페이지로 리다이렉트
+     */
+    @PostMapping("/article/addArticle")
+    public String addArticle(Article article, @SessionAttribute("ME") User me) {
+        article.setUserId(me.getUserId());
+        article.setName(me.getName());
+        articleDao.addArticle(article);
+        return "redirect:/app/article/articleList?count=25&page=1";
+    }
+
+    /**
+     * 게시글 수정 후 수정된 글로 리다이렉트
+     */
     @PostMapping("/article/updateArticle")
-    public void updateArticle(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
-        User user = (User) session.getAttribute("ME");
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/app/user/signin");
-            return;
-        }
-
-        Article article = new Article();
-        article.setTitle(request.getParameter("title"));
-        article.setContent(request.getParameter("content"));
-        article.setArticleId(Integer.parseInt(request.getParameter("articleId")));
-        article.setUserId(user.getUserId());
-
-        try {
-            articleDao.updateArticle(article);
-            // 수정 성공하면 게시글 조회
-            articleView(request, response);
-        } catch (DataAccessException e) {
-            // 수정 실패하면 다시 수정 화면으로
-            log.error(e.toString());
-            response.sendRedirect(request.getContextPath() + "/app/article/updateArticle");
-        }
+    public String updateArticle(Article article, @SessionAttribute("ME") User me) {
+        article.setUserId(me.getUserId());
+        if (articleDao.updateArticle(article) < 1)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        return "redirect:/app/article/articleView?articleId=" + article.getArticleId();
     }
 
+    /**
+     * 게시글 삭제 후 현재목록으로 리다이렉트
+     */
     @GetMapping("/article/deleteArticle")
-    public void deleteArticle(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("ME");
-
-        int userId = user.getUserId();
-        int articleId = Integer.parseInt(request.getParameter("articleId"));
-
-        articleDao.deleteArticle(articleId,userId);
-
-        articleList(request, response);
+    public String deleteArticle(int articleId, @SessionAttribute("ME") User me,
+                              @SessionAttribute(CURRENT_ARTICLE_LIST) String currentArticleList) {
+        if (articleDao.deleteArticle(articleId, me.getUserId()) < 1)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        return "redirect:" + currentArticleList;
     }
 }

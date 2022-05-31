@@ -36,6 +36,7 @@
                                 <p>
                                     <button class="btn btn-primary" type="submit">저장</button>
                                 </p>
+                                <div>${message}</div>
                             </div>
                         </div>
                     </div>
