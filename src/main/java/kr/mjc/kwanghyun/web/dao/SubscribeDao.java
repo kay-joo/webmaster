@@ -17,7 +17,7 @@ public class SubscribeDao {
 
     String LIST_SUBSCRIBE = """
             select subId, userId, name, price, pdate from subscribe where userId = ?
-            order by subId desc limit ?,?""";
+            order by pdate asc limit ?,?""";
 
     String GET_SUBSCRIBE = """
             select subId, userId, name, price, pdate from subscribe where subId=?""";
