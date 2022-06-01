@@ -6,7 +6,7 @@
 <%--부트스트랩 사용하기 위한 구문--%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-dark bg-primary mb-4">
     <a class="navbar-brand" href="./index.jsp">홈</a>
     <a class="navbar-brand" href="./app/subscribe/subscribeList?count=20&page=1">구독목록</a>
     <a class="navbar-brand" href="./app/article/articleList?count=20&page=1">공지사항</a>
