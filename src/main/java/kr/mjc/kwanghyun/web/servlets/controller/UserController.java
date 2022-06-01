@@ -44,7 +44,7 @@ public class UserController {
     public String signin(String email, String password, String redirectUrl,
                          HttpSession session, RedirectAttributes attributes) {
         redirectUrl = StringUtils.defaultIfEmpty(redirectUrl,
-                "/app/subscribe/subscribeList");
+                "/app/subscribe/subscribeList?count=20&page=1");
         log.debug("signin redirectUrl={}", redirectUrl);
 
         try {
