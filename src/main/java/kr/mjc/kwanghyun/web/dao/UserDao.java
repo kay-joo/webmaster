@@ -24,13 +24,15 @@ public class UserDao {
       "select userId, email, name from user order by userId desc limit ?,?";
 
   private static final String GET_USER =
-      "select userId, email, name from user where userId=?";
+      "select userId, email, pssword, name, user_birth, user_phone, user_gender," +
+              "zipcode, jaddress, raddress, address from user where userId=?";
 
   private static final String LOGIN =
       "select userId, email, name from user where email=? and password=sha2(?,256)";
 
   private static final String ADD_USER =
-      "insert user(email, password, name) values(:email, sha2(:password,256), :name)";
+      "insert user(email, password, password2, name, user_birth, user_phone, user_gender," +
+              "zipcode, jaddress, raddress, address) values(:email, sha2(:password,256), :name)";
 
   private static final String UPDATE_PASSWORD =
       "update user set password=sha2(?,256) where userId=? and password=sha2(?,256)";

@@ -28,6 +28,13 @@
                     <th>회원번호</th>
                     <th>이메일</th>
                     <th>이름</th>
+                    <th>생년월일</th>
+                    <th>연락처</th>
+                    <th>성별</th>
+                    <th>우편번호</th>
+                    <th>지번 주소</th>
+                    <th>도로명 주소</th>
+                    <th>상세 주소</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +42,13 @@
                     <td>${user.userId}</td>
                     <td>${user.email}</td>
                     <td>${user.name}</td>
+                    <td>${user.user_birth}</td>
+                    <td>${user.user_phone}</td>
+                    <td>${user.user_gender}</td>
+                    <td>${user.zipcode}</td>
+                    <td>${user.jaddress}</td>
+                    <td>${user.raddress}</td>
+                    <td>${user.address}</td>
                 </tr>
                 </tbody>
             </table>

@@ -23,6 +23,13 @@
     <div>번호</div>
     <div>이메일</div>
     <div>이름</div>
+    <div>생년월일</div>
+    <div>연락처</div>
+    <div>성별</div>
+    <div>우편번호</div>
+    <div>지번 주소</div>
+    <div>도로명 주소</div>
+    <div>상세 주소</div>
     <c:forEach var="user" items="${userList}">
         <div><a href="./app/user/userInfo?userId=${user.userId}">${user.userId}</a>
         </div>

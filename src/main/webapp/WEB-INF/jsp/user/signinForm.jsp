@@ -20,42 +20,51 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-primary">
-        <div class="navbar-brand">로그인</div>
-    </nav>
+<nav class="navbar navbar-dark bg-primary">
+    <div class="navbar-brand">로그인</div>
+</nav>
 
-    <form action="./app/user/signin" method="post">
-        <div class="row text-center" style="width: 100%">
-            <div style="width: 30%; float:none; margin:0 auto">
-                <div style="padding:10px;">
-                    <div class="card-header">
-                        <div class="navbar-brand">로그인</div>
-                        <div class="card mb-4">
-                            <div class="card-body">
+<form action="./app/user/signin" method="post">
+    <div class="row text-center" style="width: 100%">
+        <div style="width: 30%; float:none; margin:0 auto">
+            <div style="padding:10px;">
+                <div class="card-header">
+                    <div class="navbar-brand">로그인</div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-4">
                                 <p>
-                                    <input type="email" name="email" placeholder="이메일" class="form-control" required autofocus>
+                                    <input type="email" name="email" placeholder="이메일" class="form-control" required
+                                           autofocus>
                                 </p>
+                            </div>
+                            <div class="mb-4">
                                 <p>
-                                    <input type="password" name="password" placeholder="비밀번호" class="form-control" aria-describedby="passwordHelpBlock" required>
+                                    <input type="password" name="password" placeholder="비밀번호" class="form-control"
+                                           aria-describedby="passwordHelpBlock" required>
                                 </p>
+                            </div>
+                            <div class="mb-4">
                                 <p>
                                     <button class="btn btn-primary" type="submit">로그인</button>
                                 </p>
+                                <div>${message}</div>
                             </div>
                         </div>
                     </div>
-
-                    <c:choose>
-                        <c:when test="${!empty param.redirectUrl}">
-                            <input type="hidden" name="redirectUrl" value="${param.redirectUrl}"/>
-                        </c:when>
-                        <c:otherwise>
-                            <input type="hidden" name="redirectUrl" value="${header.referer}" readonly/>
-                        </c:otherwise>
-                    </c:choose>
                 </div>
+
+                <c:choose>
+                    <c:when test="${!empty param.redirectUrl}">
+                        <input type="hidden" name="redirectUrl" value="${param.redirectUrl}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="hidden" name="redirectUrl" value="${header.referer}" readonly/>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 </body>
 </html>
