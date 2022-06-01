@@ -28,7 +28,18 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" name="name" placeholder="구독명" required autofocus/></td>
+            <tr>
+                <td valgn="top">
+                    <select name="name">
+                        <option value="넷플릭스">넷플릭스</option>
+                        <option value="디지니플러스">디지니플러스</option>
+                        <option value="왓챠">왓챠</option>
+                        <option value="쿠팡플레이">쿠팡플레이</option>
+                        <option value="티빙">티빙</option>
+
+                    </select>
+                </td>
+
                 <td><input type="number" name="price" placeholder="금액" required/></td>
                 <td><input type="date" name="pdate" placeholder="결제 예정일자" required/></td>
             </tr>

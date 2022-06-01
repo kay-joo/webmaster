@@ -26,6 +26,7 @@
             </tr>
             </thead>
             <tbody>
+
             <tr>
                 <td><input type="text" name="name" value="${subscribe.name}"
                            placeholder=" 구독명" required autofocus/>
