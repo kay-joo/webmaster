@@ -28,7 +28,17 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" name="name" placeholder="구독명" required autofocus/></td>
+                <td>
+                    <select name="name">
+                        <option>NETFLIX.COM</option>
+                        <option>TVING.COM</option>
+                        <option>DISNEYPLUS.COM</option>
+                        <option>COUPANGPLAY.COM</option>
+                        <option>WATCHA.COM</option>
+                        <option>YOUTUBE.COM</option>
+                    </select>
+                </td>
+                <%--<td><input type="text" name="name" placeholder="구독명" required autofocus/></td>--%>
                 <td><input type="number" name="price" placeholder="금액" required/></td>
                 <td><input type="date" name="pdate" placeholder="결제 예정일자" required/></td>
             </tr>
