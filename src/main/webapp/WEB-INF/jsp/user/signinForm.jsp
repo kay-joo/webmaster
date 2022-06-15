@@ -26,7 +26,7 @@
 
 <form action="./app/user/signin" method="post">
     <div class="row text-center" style="width: 100%">
-        <div style="width: 30%; float:none; margin:0 auto">
+        <div style="float:none; margin:0 auto">
             <div style="padding:10px;">
                 <div class="card-header">
                     <div class="navbar-brand">로그인</div>
@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <div class="mb-4">
                                 <p>
-                                    <input type="email" name="email" placeholder="이메일" class="form-control" required
+                                    <input type="email" name="email" placeholder="이메일" class="form-control " required
                                            autofocus>
                                 </p>
                             </div>

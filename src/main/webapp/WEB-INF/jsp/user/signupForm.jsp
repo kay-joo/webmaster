@@ -21,7 +21,7 @@
 
     <form action="./app/user/signup" method="post">
         <div class="row text-center" style="width: 100%">
-            <div style="width: 30%; float:none; margin:0 auto">
+            <div style="float:none; margin:0 auto">
                 <div style="padding:10px;">
                     <div class="card-header">
                         <div class="navbar-brand">회원가입</div>
